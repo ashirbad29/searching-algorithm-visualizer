@@ -13,19 +13,14 @@ p {
 	width: 200px;
 	height: 50px;
 	background-color: aqua;
-	border-radius: 23px;
+	border-radius: 2px;
 	margin: 10px;
 	border: none;
-	box-shadow: rgb(80, 99, 99) 5px 15px 15px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	transition: all 0.5s;
 }
 
 .btn:hover {
 	background-color: rgb(255, 85, 241);
-	box-shadow: rgb(80, 99, 99) 15px 15px 15px;
 }
 
 input,
