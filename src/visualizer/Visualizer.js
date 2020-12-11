@@ -140,6 +140,17 @@ const Visualizer = () => {
 				<button className='btn' onClick={() => getNewArray(length)}>
 					Reset Array
 				</button>
+
+				<label htmlFor='algoritm'>select algorithm</label>
+				<select
+					value={algo}
+					name='algoritm'
+					onChange={e => setAlgo(e.target.value)}
+					className='select'
+				>
+					<option value='bianrySearch'>Bianry Search</option>
+					<option value='linearSearch'>Linear Search</option>
+				</select>
 			</div>
 		</div>
 	);
