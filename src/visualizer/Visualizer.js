@@ -4,16 +4,14 @@ const Visualizer = () => {
 	const [mainArr, setMainArr] = useState([]);
 	const [length, setLength] = useState(30);
 	const [algo, setAlgo] = useState('linearSearch');
-	const [able, setAble] = useState(true);
+	// const [able, setAble] = useState(true);
 	const [searchValue, setSearchValue] = useState(0);
 	const [resultmsg, setResultmsg] = useState('');
 
 	const primaryColor = '#074478';
 
 	useEffect(() => {
-		if (able) {
-			getNewArray(length);
-		}
+		algo === 'linearSearch' ? getNewArray(length) : getNewSortedArray(length);
 	}, [length, algo]);
 
 	const randomNumberFromRange = (low, high) => {
@@ -110,6 +108,16 @@ const Visualizer = () => {
 		}
 	};
 
+	const binarySearch = val => {
+		console.log(val);
+	};
+
+	const startSearch = algo => {
+		algo === 'linearSearch'
+			? linearSearch(parseInt(searchValue))
+			: binarySearch(searchValue);
+	};
+
 	return (
 		<div className='searching-container'>
 			<div className='array-container'>
@@ -172,8 +180,9 @@ const Visualizer = () => {
 					<option value='linearSearch'>Linear Search</option>
 				</select>
 
-				{/* Testing */}
-				<button onClick={() => getNewSortedArray(length)}>Binary search</button>
+				<button className='btn' onClick={() => startSearch(algo)}>
+					search
+				</button>
 			</div>
 		</div>
 	);
