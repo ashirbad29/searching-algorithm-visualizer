@@ -20,6 +20,26 @@ const Visualizer = () => {
 		return Math.floor(Math.random() * (high - low) + low);
 	};
 
+	// for binary search
+	const getNewSortedArray = length => {
+		const arr = [];
+		for (let i = 0; i < length; i++) {
+			arr.push(randomNumberFromRange(100, 200));
+			if (document.getElementsByClassName('array-bar')[i] != null) {
+				document.getElementsByClassName('array-bar')[
+					i
+				].style.backgroundColor = primaryColor;
+			}
+		}
+
+		arr.sort((a, b) => a - b);
+
+		const temp = arr.map((item, idx) => ({ idx: idx, val: item }));
+
+		setMainArr(temp);
+		displayResult('no-result');
+	};
+
 	const getNewArray = length => {
 		const arr = [];
 		for (let i = 0; i < length; i++) {
@@ -151,6 +171,9 @@ const Visualizer = () => {
 					<option value='bianrySearch'>Bianry Search</option>
 					<option value='linearSearch'>Linear Search</option>
 				</select>
+
+				{/* Testing */}
+				<button onClick={() => getNewSortedArray(length)}>Binary search</button>
 			</div>
 		</div>
 	);
