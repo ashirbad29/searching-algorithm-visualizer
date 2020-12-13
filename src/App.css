@@ -11,12 +11,13 @@ p {
 
 .btn {
 	width: 200px;
-	height: 50px;
+	height: 30px;
 	background-color: aqua;
 	border-radius: 2px;
 	margin: 10px;
 	border: none;
 	transition: all 0.5s;
+	font-size: large;
 }
 
 .btn:hover {
@@ -55,11 +56,9 @@ input,
 .searching-container {
 	display: flex;
 	flex-direction: row;
-	/* flex-wrap: wrap; */
 	align-items: center;
 	height: 100%;
 	margin-top: 40px;
-	/* justify-content: flex-start; */
 }
 
 .array-container {
@@ -103,11 +102,10 @@ input,
 	left: 39vw;
 	top: 4vh;
 	transform: translateX(-125px);
-	border-radius: 13px;
+	border-radius: 2px;
 	line-height: 50px;
 	font-weight: bold;
 	color: white;
-	/* background-color: greenyellow; */
 }
 .green {
 	background-color: #107834;
@@ -116,33 +114,4 @@ input,
 .red {
 	background-color: #751111;
 	box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 10px;
-}
-.navbar {
-	width: 100%;
-	/* background-color: #751111; */
-	display: flex;
-	justify-content: center;
-}
-
-.navbtn {
-	box-shadow: rgb(80, 99, 99) 0px 0px 0px;
-	height: 40px;
-	width: 140px;
-	font-size: 21px;
-	background-color: rgb(255, 85, 241);
-	cursor: pointer;
-	position: absolute;
-	top: 4vh;
-	left: 81.6vw;
-}
-
-.navbtn2 {
-	top: 1vh;
-}
-.navbtn1 {
-	top: 8vh;
-}
-.navbtn:hover {
-	box-shadow: rgb(80, 99, 99) 0px 0px 0px;
-	background-color: rgb(255, 85, 241);
 }

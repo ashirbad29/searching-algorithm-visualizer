@@ -41,7 +41,7 @@ const Visualizer = () => {
 		for (let i = 0; i < length; i++) {
 			const item = {
 				idx: i,
-				val: randomNumberFromRange(100, 200),
+				val: randomNumberFromRange(100, 400),
 			};
 			arr.push(item);
 			if (document.getElementsByClassName('array-bar')[i] != null) {
@@ -180,7 +180,6 @@ const Visualizer = () => {
 			setResultmsg('');
 			document.getElementById('result-box').classList.remove('red', 'green');
 		} else if (idx === -1) {
-			// setResultmsg()
 			setResultmsg(`not found !!!`);
 			document.getElementById('result-box').classList.remove('red', 'green');
 			document.getElementById('result-box').classList.add('red');
