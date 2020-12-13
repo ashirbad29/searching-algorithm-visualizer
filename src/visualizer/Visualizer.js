@@ -4,14 +4,14 @@ const Visualizer = () => {
 	const [mainArr, setMainArr] = useState([]);
 	const [length, setLength] = useState(30);
 	const [algo, setAlgo] = useState('linearSearch');
-	// const [able, setAble] = useState(true);
-	const [searchValue, setSearchValue] = useState(0);
+	const [searchValue, setSearchValue] = useState(250);
 	const [resultmsg, setResultmsg] = useState('');
 
 	const primaryColor = '#074478';
 
 	useEffect(() => {
 		algo === 'linearSearch' ? getNewArray(length) : getNewSortedArray(length);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [length, algo]);
 
 	const randomNumberFromRange = (low, high) => {
@@ -22,7 +22,7 @@ const Visualizer = () => {
 	const getNewSortedArray = length => {
 		const arr = [];
 		for (let i = 0; i < length; i++) {
-			arr.push(randomNumberFromRange(40, 200));
+			arr.push(randomNumberFromRange(100, 400));
 			if (document.getElementsByClassName('array-bar')[i] != null) {
 				document.getElementsByClassName('array-bar')[
 					i
@@ -31,9 +31,7 @@ const Visualizer = () => {
 		}
 
 		arr.sort((a, b) => a - b);
-
 		const temp = arr.map((item, idx) => ({ idx: idx, val: item }));
-
 		setMainArr(temp);
 		displayResult('no-result');
 	};
@@ -91,6 +89,92 @@ const Visualizer = () => {
 		}
 	};
 
+	const binarySearch = value => {
+		let lo = 0;
+		let hi = length - 1;
+		let animations = [];
+		let found = false;
+
+		while (lo <= hi) {
+			let mid = Math.floor((lo + hi) / 2);
+
+			animations.push({
+				i: lo,
+				j: hi,
+				mid: mid,
+			});
+
+			if (mainArr[mid].val === value) {
+				found = true;
+				break;
+			} else if (mainArr[mid].val > value) {
+				hi = mid - 1;
+			} else {
+				lo = mid + 1;
+			}
+		}
+
+		if (!found) {
+			animations.push({
+				i: -1,
+				j: -1,
+				mid: -1,
+			});
+		}
+
+		binaryHelper(animations, value);
+	};
+
+	const binaryHelper = (animations, searchValue) => {
+		let bars = document.getElementsByClassName('array-bar');
+
+		for (let k = 0; k < animations.length; k++) {
+			if (animations[k].i === -1) {
+				setTimeout(() => {
+					displayResult(-1);
+
+					bars[animations[k - 1].mid].style.backgroundColor = 'grey';
+				}, k * 1000);
+				break;
+			}
+
+			if (mainArr[animations[k].mid].val === searchValue) {
+				console.log('inside');
+				setTimeout(() => {
+					bars[animations[k].mid].style.backgroundColor = 'green';
+
+					displayResult(parseInt(animations[k].mid));
+				}, (k + 1) * 1000);
+			}
+			let tempLen = length;
+			setTimeout(() => {
+				for (let m = 0; m < tempLen; m++) {
+					if (m <= animations[k].j && m >= animations[k].i)
+						bars[m].style.backgroundColor = primaryColor;
+					else bars[m].style.backgroundColor = 'grey';
+
+					if (m === animations[k].mid) bars[m].style.backgroundColor = 'cyan';
+				}
+			}, k * 1000);
+		}
+	};
+
+	const startSearch = algo => {
+		setPrimaryColor();
+
+		algo === 'linearSearch'
+			? linearSearch(parseInt(searchValue))
+			: binarySearch(parseInt(searchValue));
+	};
+
+	const setPrimaryColor = () => {
+		const arrayBars = document.getElementsByClassName('array-bar');
+
+		for (let i = 0; i < arrayBars.length; i++) {
+			arrayBars[i].style.backgroundColor = primaryColor;
+		}
+	};
+
 	const displayResult = idx => {
 		if (idx === 'no-result') {
 			setResultmsg('');
@@ -105,83 +189,6 @@ const Visualizer = () => {
 			document.getElementById('result-box').classList.remove('red', 'green');
 			document.getElementById('result-box').classList.add('green');
 		}
-	};
-
-	const binarySearch = val => {
-		const arryBars = document.getElementsByClassName('array-bar');
-
-		let low = 0,
-			high = length - 1,
-			count = 0,
-			found = false;
-
-		while (low <= high) {
-			let tempLow = low,
-				tempHigh = high;
-
-			let mid = Math.floor((low + high) / 2);
-
-			console.log(mid, mainArr[mid].val);
-
-			setTimeout(() => {
-				arryBars[mid].style.backgroundColor = 'red';
-				arryBars[tempLow].style.backgroundColor = 'yellow';
-				arryBars[tempHigh].style.backgroundColor = 'yellow';
-			}, count * 100);
-
-			count += 3;
-
-			if (mainArr[mid].val === val) {
-				console.log('inside');
-
-				setTimeout(() => {
-					arryBars[mid].style.backgroundColor = 'green';
-					displayResult(mid);
-				}, (count + 2) * 100);
-
-				found = true;
-				return;
-			}
-
-			if (mainArr[mid].val < val) {
-				let oldLow = low;
-				low = mid + 1;
-
-				// color the lower half
-				for (let i = oldLow; i <= mid; i++) {
-					setTimeout(() => {
-						arryBars[i].style.backgroundColor = 'cyan';
-					}, (count + i) * 100);
-				}
-				count += 3;
-			}
-
-			if (mainArr[mid].val > val) {
-				let oldHigh = high;
-				high = mid - 1;
-				// color the lower half
-				let itr = count;
-				for (let i = oldHigh; i >= mid; i--) {
-					setTimeout(() => {
-						arryBars[i].style.backgroundColor = 'cyan';
-					}, (count + itr) * 100);
-					itr++;
-				}
-				count += 3;
-			}
-
-			if (found === false) {
-				setTimeout(() => {
-					displayResult(-1);
-				}, count * 100);
-			}
-		}
-	};
-
-	const startSearch = algo => {
-		algo === 'linearSearch'
-			? linearSearch(parseInt(searchValue))
-			: binarySearch(parseInt(searchValue));
 	};
 
 	return (
