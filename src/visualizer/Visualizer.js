@@ -22,7 +22,7 @@ const Visualizer = () => {
 	const getNewSortedArray = length => {
 		const arr = [];
 		for (let i = 0; i < length; i++) {
-			arr.push(randomNumberFromRange(100, 200));
+			arr.push(randomNumberFromRange(40, 200));
 			if (document.getElementsByClassName('array-bar')[i] != null) {
 				document.getElementsByClassName('array-bar')[
 					i
@@ -59,7 +59,6 @@ const Visualizer = () => {
 	const linearSearch = value => {
 		let found = false;
 		for (let i = 0; i < length; i++) {
-			console.log(mainArr[i].val, value);
 			if (mainArr[i].val === value) {
 				console.log('found');
 				setTimeout(() => {
@@ -109,13 +108,80 @@ const Visualizer = () => {
 	};
 
 	const binarySearch = val => {
-		console.log(val);
+		const arryBars = document.getElementsByClassName('array-bar');
+
+		let low = 0,
+			high = length - 1,
+			count = 0,
+			found = false;
+
+		while (low <= high) {
+			let tempLow = low,
+				tempHigh = high;
+
+			let mid = Math.floor((low + high) / 2);
+
+			console.log(mid, mainArr[mid].val);
+
+			setTimeout(() => {
+				arryBars[mid].style.backgroundColor = 'red';
+				arryBars[tempLow].style.backgroundColor = 'yellow';
+				arryBars[tempHigh].style.backgroundColor = 'yellow';
+			}, count * 100);
+
+			count += 3;
+
+			if (mainArr[mid].val === val) {
+				console.log('inside');
+
+				setTimeout(() => {
+					arryBars[mid].style.backgroundColor = 'green';
+					displayResult(mid);
+				}, (count + 2) * 100);
+
+				found = true;
+				return;
+			}
+
+			if (mainArr[mid].val < val) {
+				let oldLow = low;
+				low = mid + 1;
+
+				// color the lower half
+				for (let i = oldLow; i <= mid; i++) {
+					setTimeout(() => {
+						arryBars[i].style.backgroundColor = 'cyan';
+					}, (count + i) * 100);
+				}
+				count += 3;
+			}
+
+			if (mainArr[mid].val > val) {
+				let oldHigh = high;
+				high = mid - 1;
+				// color the lower half
+				let itr = count;
+				for (let i = oldHigh; i >= mid; i--) {
+					setTimeout(() => {
+						arryBars[i].style.backgroundColor = 'cyan';
+					}, (count + itr) * 100);
+					itr++;
+				}
+				count += 3;
+			}
+
+			if (found === false) {
+				setTimeout(() => {
+					displayResult(-1);
+				}, count * 100);
+			}
+		}
 	};
 
 	const startSearch = algo => {
 		algo === 'linearSearch'
 			? linearSearch(parseInt(searchValue))
-			: binarySearch(searchValue);
+			: binarySearch(parseInt(searchValue));
 	};
 
 	return (
@@ -160,12 +226,12 @@ const Visualizer = () => {
 
 				<button
 					className='btn'
-					onClick={() => linearSearch(parseInt(searchValue))}
+					onClick={() =>
+						algo === 'linearSearch'
+							? getNewArray(length)
+							: getNewSortedArray(length)
+					}
 				>
-					Linear Search
-				</button>
-
-				<button className='btn' onClick={() => getNewArray(length)}>
 					Reset Array
 				</button>
 
