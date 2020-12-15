@@ -5,6 +5,7 @@
 - linear search
 - binary search
 
-![algorithm visulizer](public\searching-visulizer-one.jpg)
-
-![algorithm visulizer](public\searching-visualizer-two.jpg)
+<br>
+<img src="public/searching-visulizer-one.jpg" width="600" />
+<br>
+<img src="public/searching-visualizer-two.jpg" width="600" />
